@@ -1,7 +1,6 @@
 <!-- views/flights/index.ejs -->
 <%- include('../partials/header') %>
 
-<h2>All Flights</h2>
 <table>
   <thead>
     <tr>
@@ -12,13 +11,16 @@
     </tr>
   </thead>
   <tbody>
-<!-- views/flights/index.ejs -->
 <% flights.forEach(flight => { %>
     <tr class="<%= flight.departs < now ? 'past-flight' : '' %>">
       <td><a href="/flights/<%= flight._id %>"><%= flight.airline %></a></td>
       <td><%= flight.airport %></td>
       <td><%= flight.flightNo %></td>
-      <td><%= flight.departs.toISOString().split('T')[0] %></td>
+      <td>
+        <%= flight.departs.toISOString().split('T')[0] %>
+        at
+        <%= new Date(flight.departs).toTimeString().split(' ')[0] %>
+      </td>
     </tr>
     <% }) %>    
   </tbody>

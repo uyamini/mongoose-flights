@@ -1,0 +1,14 @@
+<!-- views/flights/show.ejs -->
+<%- include('../partials/header') %>
+
+<h2>Flight Details</h2>
+<div class="flight-details">
+  <h3>Airline: <%= flight.airline %></h3>
+  <p><strong>Airport:</strong> <%= flight.airport %></p>
+  <p><strong>Flight Number:</strong> <%= flight.flightNo %></p>
+  <p><strong>Departs:</strong> <%= flight.departs.toISOString().split('T')[0] %> at <%= flight.departs.toTimeString().split(' ')[0] %></p>
+</div>
+
+<a href="/flights">Back to All Flights</a>
+
+<%- include('../partials/footer') %>

@@ -9,6 +9,26 @@
   <p><strong>Departs:</strong> <%= flight.departs.toISOString().split('T')[0] %> at <%= flight.departs.toTimeString().split(' ')[0] %></p>
 </div>
 
+<!-- Display existing destinations -->
+<h4>Destinations:</h4>
+<ul>
+  <% flight.destinations.forEach(destination => { %>
+    <li><%= destination.airport %> - Arrival: <%= destination.arrival.toISOString().split('T')[0] %></li>
+  <% }) %>
+</ul>
+<!-- Form to add a new destination -->
+<h4>Add Destination:</h4>
+<form action="/flights/<%= flight._id %>/destinations" method="post">
+  <label for="airport">Airport:</label>
+  <select name="airport" id="airport" required>
+    <option value="AUS">AUS</option>
+    <!-- Add other airport options -->
+  </select>
+  <label for="arrival">Arrival:</label>
+  <input type="datetime-local" name="arrival" id="arrival" required>
+  <button type="submit">Add Destination</button>
+</form>
+
 <a href="/flights">Back to All Flights</a>
 
 <%- include('../partials/footer') %>

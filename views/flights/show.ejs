@@ -21,8 +21,9 @@
 <form action="/flights/<%= flight._id %>/destinations" method="post">
   <label for="airport">Airport:</label>
   <select name="airport" id="airport" required>
-    <option value="AUS">AUS</option>
-    <!-- Add other airport options -->
+    <% availableAirports.forEach(function(airport) { %>
+      <option value="<%= airport %>"><%= airport %></option>
+    <% }); %>
   </select>
   <label for="arrival">Arrival:</label>
   <input type="datetime-local" name="arrival" id="arrival" required>
@@ -30,5 +31,20 @@
 </form>
 
 <a href="/flights">Back to All Flights</a>
+
+<a href="/flights/<%= flight._id %>/tickets/new">Add New Ticket</a>
+
+<h4>Add New Ticket</h4>
+<form action="/flights/<%= flight._id %>/tickets" method="post">
+  <div>
+    <label for="seat">Seat</label>
+    <input type="text" name="seat" id="seat" pattern="[A-F][1-9]\d?" required>
+  </div>
+  <div>
+    <label for="price">Price</label>
+    <input type="number" name="price" id="price" min="0" required>
+  </div>
+  <button type="submit">Add Ticket</button>
+</form>
 
 <%- include('../partials/footer') %>

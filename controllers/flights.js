@@ -1,5 +1,8 @@
 // controllers/flights.js
 const Flight = require('../models/flight');
+const Ticket = require('../models/ticket');
+
+const allAirports = ['AUS', 'DFW', 'DEN', 'LAX', 'SAN']; //Full list of airports
 
 module.exports = {
   index,
@@ -10,9 +13,29 @@ module.exports = {
 };
 
 async function show(req, res) {
-    const flight = await Flight.findById(req.params.id);
-    res.render('flights/show', { title: 'Flight Detail', flight });
-  }  
+    try {
+      const flight = await Flight.findById(req.params.id);
+      const tickets = await Ticket.find({flight: flight._id}); // Fetch tickets for this flight
+  
+      const excludedAirports = flight.destinations.map(dest => dest.airport);
+      if (flight.airport) excludedAirports.push(flight.airport); // Exclude the flight's origin airport
+      
+      const availableAirports = allAirports.filter(airport => !excludedAirports.includes(airport));
+      
+      // Pass both the flight and tickets to the view
+      res.render('flights/show', { 
+        title: 'Flight Detail', 
+        flight,
+        tickets, // Include tickets in the data passed to the view
+        availableAirports
+      });
+    } catch (err) {
+      console.error(err);
+      res.redirect('/flights');
+    }
+  }
+  
+
 async function index(req, res) {
     try {
       const flights = await Flight.find({}).sort('departs');

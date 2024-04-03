@@ -15,19 +15,21 @@ module.exports = {
 async function show(req, res) {
     try {
       const flight = await Flight.findById(req.params.id);
-      const tickets = await Ticket.find({flight: flight._id}); // Fetch tickets for this flight
-  
-      const excludedAirports = flight.destinations.map(dest => dest.airport);
-      if (flight.airport) excludedAirports.push(flight.airport); // Exclude the flight's origin airport
+      // Fetch tickets for the current flight
+      const tickets = await Ticket.find({ flight: flight._id }); // Add this line
       
+      //Build an array of airports to exclude: the flight's origin and its destinations
+      const excludedAirports = flight.destinations.map(dest => dest.airport);
+      if (flight.airport) excludedAirports.push(flight.airport); // Assuming 'airport' is the origin
+      
+      //Filter the full list to exclude these airports
       const availableAirports = allAirports.filter(airport => !excludedAirports.includes(airport));
       
-      // Pass both the flight and tickets to the view
       res.render('flights/show', { 
         title: 'Flight Detail', 
         flight,
-        tickets, // Include tickets in the data passed to the view
-        availableAirports
+        availableAirports, //Pass this filtered list to the view
+        tickets // Add this line to pass the tickets to the view
       });
     } catch (err) {
       console.error(err);

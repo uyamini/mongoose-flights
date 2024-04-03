@@ -30,6 +30,17 @@
   <button type="submit">Add Destination</button>
 </form>
 
+<h2>Tickets</h2>
+<% if (tickets.length) { %>
+  <ul>
+    <% tickets.forEach(ticket => { %>
+      <li>Seat: <%= ticket.seat %>, Price: <%= ticket.price %></li>
+    <% }) %>
+  </ul>
+<% } else { %>
+  <p>No tickets booked for this flight yet.</p>
+<% } %>
+
 <a href="/flights">Back to All Flights</a>
 
 <a href="/flights/<%= flight._id %>/tickets/new">Add New Ticket</a>

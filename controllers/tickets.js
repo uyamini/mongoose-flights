@@ -4,32 +4,28 @@ const Flight = require('../models/flight');
 
 // Define the 'new' method to show a form for creating a new ticket
 exports.new = async (req, res) => {
-  try {
-    const flight = await Flight.findById(req.params.flightId); // Ensure 'flightId' matches your route parameter
-    res.render('tickets/new', { title: 'New Ticket', flight });
-  } catch (err) {
-    console.error(err);
-    res.redirect('/flights');
-  }
-};
+    try {
+      // Just pass the flightId to the view
+      const flightId = req.params.flightId; 
+      res.render('tickets/new', { title: 'New Ticket', flightId });
+    } catch (err) {
+      console.error(err);
+      res.redirect('/flights');
+    }
+  };
 
+// Function to create a new ticket for a flight
 exports.create = async (req, res) => {
-  const flightId = req.params.flightId; // Ensure this param name matches your route definition
-  const { seat, price } = req.body;
-
-  try {
-    // Create and save the new ticket
-    const ticket = new Ticket({ seat, price, flight: flightId });
-    await ticket.save();
-
-    // Redirect back to the flight's detail page
-    res.redirect(`/flights/${flightId}`);
-  } catch (err) {
-    console.error(err);
-    // Optionally, handle error, e.g., by redirecting to an error page or back to the form with an error message
-    res.redirect(`/flights/${flightId}`);
-  }
-};
+    try {
+      req.body.flight = req.params.flightId; // Assign flightId from URL params to the ticket
+      const ticket = new Ticket(req.body);
+      await ticket.save();
+      res.redirect(`/flights/${req.params.flightId}`); // Redirect to the flight's detail page
+    } catch (error) {
+      console.error('Error creating ticket:', error);
+      res.redirect(`/flights/${req.params.flightId}`);
+    }
+  };
 
 // Correctly export both methods at the end of the file
 module.exports = {

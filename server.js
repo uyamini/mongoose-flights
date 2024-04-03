@@ -9,7 +9,6 @@ require('./config/database');
 
 var indexRouter = require('./routes/index');
 var flightsRouter = require('./routes/flights');
-var ticketsRouter = require('./routes/tickets');
 var methodOverride = require('method-override');
 
 var app = express();
@@ -23,11 +22,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(methodOverride('_method')); // Ensure methodOverride is used before your routes that need it
 
 app.use('/', indexRouter);
-app.use('/flights', flightsRouter);
-app.use('/flights/:flightId/tickets', ticketsRouter);
-app.use(methodOverride('_method'));
+app.use('/flights', flightsRouter); // This now also includes ticket-related routes
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

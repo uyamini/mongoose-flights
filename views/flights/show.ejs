@@ -45,17 +45,4 @@
 
 <a href="/flights/<%= flight._id %>/tickets/new">Add New Ticket</a>
 
-<h4>Add New Ticket</h4>
-<form action="/flights/<%= flight._id %>/tickets" method="post">
-  <div>
-    <label for="seat">Seat</label>
-    <input type="text" name="seat" id="seat" pattern="[A-F][1-9]\d?" required>
-  </div>
-  <div>
-    <label for="price">Price</label>
-    <input type="number" name="price" id="price" min="0" required>
-  </div>
-  <button type="submit">Add Ticket</button>
-</form>
-
 <%- include('../partials/footer') %>

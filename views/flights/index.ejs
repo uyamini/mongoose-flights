@@ -1,31 +1,10 @@
 <!-- views/flights/index.ejs -->
 <%- include('../partials/header') %>
-
-<table>
-  <thead>
-    <tr>
-      <th>Airline</th>
-      <th>Airport</th>
-      <th>Flight No.</th>
-      <th>Departs</th>
-    </tr>
-  </thead>
-  <tbody>
-<% flights.forEach(flight => { %>
-    <tr class="<%= flight.departs < now ? 'past-flight' : '' %>">
-      <td><a href="/flights/<%= flight._id %>"><%= flight.airline %></a></td>
-      <td><%= flight.airport %></td>
-      <td><%= flight.flightNo %></td>
-      <td>
-        <%= flight.departs.toISOString().split('T')[0] %>
-        at
-        <%= new Date(flight.departs).toTimeString().split(' ')[0] %>
-      </td>
-    </tr>
-    <% }) %>    
-  </tbody>
-</table>
-
-<a href="/flights/new">Add a New Flight</a>
+<h1>All Flights</h1>
+<ul>
+  <% flights.forEach(flight => { %>
+    <li><%= flight.airline %> - <%= flight.flightNo %> - <%= flight.departs.toISOString().slice(0,10) %></li>
+  <% }) %>
+</ul>
 
 <%- include('../partials/footer') %>

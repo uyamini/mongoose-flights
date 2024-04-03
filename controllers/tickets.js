@@ -1,34 +1,25 @@
-// controllers/tickets.js
+//controllers/ticket.js
 const Ticket = require('../models/ticket');
 const Flight = require('../models/flight');
 
-// Define the 'new' method to show a form for creating a new ticket
 exports.new = async (req, res) => {
-    try {
-      // Just pass the flightId to the view
-      const flightId = req.params.flightId; 
-      res.render('tickets/new', { title: 'New Ticket', flightId });
-    } catch (err) {
-      console.error(err);
-      res.redirect('/flights');
-    }
-  };
+  const flight = await Flight.findById(req.params.id);
+  res.render('tickets/new', { title: 'Add Ticket', flight });
+};
 
-// Function to create a new ticket for a flight
 exports.create = async (req, res) => {
     try {
-      req.body.flight = req.params.flightId; // Assign flightId from URL params to the ticket
-      const ticket = new Ticket(req.body);
-      await ticket.save();
-      res.redirect(`/flights/${req.params.flightId}`); // Redirect to the flight's detail page
-    } catch (error) {
-      console.error('Error creating ticket:', error);
-      res.redirect(`/flights/${req.params.flightId}`);
+      req.body.flight = req.params.id;
+      await Ticket.create(req.body);
+      res.redirect(`/flights/${req.params.id}`);
+    } catch (err) {
+      console.error(err);
+      res.redirect('back');
     }
   };
-
-// Correctly export both methods at the end of the file
-module.exports = {
-  new: exports.new,
-  create: exports.create,
-};
+  exports.delete = async (req, res) => {
+    await Ticket.findByIdAndDelete(req.params.ticketId);
+    res.redirect(`/flights/${req.params.flightId}`);
+  };
+  
+  

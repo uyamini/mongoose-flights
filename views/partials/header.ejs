@@ -9,9 +9,11 @@
   <title><%= title %></title>
 </head>
 <body>
-  <nav>
-    <a href="/flights/new" <%- title === 'Add Flight' ? 'class="active"' : '' %>>ADD FLIGHT</a>
-    <a href="/flights" <%- title === 'All Flights' ? 'class="active"' : '' %>>ALL FLIGHTS</a>
-  </nav>
+    <nav>
+        <ul>
+          <li><a href="/flights">ALL FLIGHTS</a></li>
+          <li><a href="/flights/new">ADD FLIGHT</a></li>
+        </ul>
+      </nav>
   <main>
     <h1><%= title %></h1>

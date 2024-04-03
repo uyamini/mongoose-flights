@@ -12,50 +12,50 @@
 <!-- Display existing destinations -->
 <h4>Destinations:</h4>
 <ul>
-  <% flight.destinations.forEach(destination => { %>
-    <li><%= destination.airport %> - Arrival: <%= destination.arrival.toISOString().split('T')[0] %></li>
-  <% }) %>
-</ul>
-<!-- Form to add a new destination -->
-<h4>Add Destination:</h4>
+    <% flight.destinations.forEach(function(destination) { %>
+      <li><%= destination.airport %> - Arrives: <%= destination.arrival.toDateString() %></li>
+    <% }) %>
+  </ul>
+
+<h3>Add Destination</h3>
 <form action="/flights/<%= flight._id %>/destinations" method="post">
-  <label for="airport">Airport:</label>
-  <select name="airport" id="airport" required>
-    <% availableAirports.forEach(function(airport) { %>
-      <option value="<%= airport %>"><%= airport %></option>
-    <% }); %>
+    <select name="airport">
+    <option value="AUS">AUS</option>
+    <option value="DFW">DFW</option>
+    <option value="DEN">DEN</option>
+    <!-- Add other options here -->
   </select>
-  <label for="arrival">Arrival:</label>
-  <input type="datetime-local" name="arrival" id="arrival" required>
+  <input type="date" name="arrival">
   <button type="submit">Add Destination</button>
 </form>
 
-<h2>Tickets</h2>
-<% if (tickets.length) { %>
-  <ul>
-    <% tickets.forEach(ticket => { %>
-      <li>Seat: <%= ticket.seat %>, Price: <%= ticket.price %></li>
-    <% }) %>
-  </ul>
-<% } else { %>
-  <p>No tickets booked for this flight yet.</p>
-<% } %>
+<h3>Tickets</h3>
+<ul>
+  <% tickets.forEach(function(ticket) { %>
+    <li>
+      Seat: <%= ticket.seat %>, Price: $<%= ticket.price %>
+      <!-- Delete form for each ticket -->
+      <form action="/flights/<%= flight._id %>/tickets/<%= ticket._id %>?_method=DELETE" method="post">
+        <button type="submit">Delete</button>
+      </form>
+    </li>
+  <% }) %>
+</ul>
 
-<a href="/flights">Back to All Flights</a>
 
-<a href="/flights/<%= flight._id %>/tickets/new">Add New Ticket</a>
 
-<h4>Add New Ticket</h4>
+<h3>Add a New Ticket</h3>
 <form action="/flights/<%= flight._id %>/tickets" method="post">
   <div>
     <label for="seat">Seat</label>
-    <input type="text" name="seat" id="seat" pattern="[A-F][1-9]\d?" required>
+    <input type="text" id="seat" name="seat" required pattern="[A-F][1-9]\d?" placeholder="A1">
   </div>
   <div>
     <label for="price">Price</label>
-    <input type="number" name="price" id="price" min="0" required>
+    <input type="number" id="price" name="price" required min="0">
   </div>
   <button type="submit">Add Ticket</button>
 </form>
+
 
 <%- include('../partials/footer') %>

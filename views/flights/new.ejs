@@ -1,10 +1,10 @@
 <!-- views/flights/new.ejs -->
 <%- include('../partials/header') %>
-
+<h1>Add New Flight</h1>
 <form action="/flights" method="post">
   <div>
     <label for="airline">Airline:</label>
-    <select name="airline" id="airline" required>
+    <select name="airline" required>
       <option value="American">American</option>
       <option value="Southwest">Southwest</option>
       <option value="United">United</option>
@@ -12,7 +12,7 @@
   </div>
   <div>
     <label for="airport">Airport:</label>
-    <select name="airport" id="airport" required>
+    <select name="airport" required>
       <option value="AUS">AUS</option>
       <option value="DFW">DFW</option>
       <option value="DEN" selected>DEN</option>
@@ -21,12 +21,12 @@
     </select>
   </div>
   <div>
-    <label for="flightNo">Flight No.:</label>
-    <input type="number" name="flightNo" id="flightNo" required min="10" max="9999">
+    <label for="flightNo">Flight No:</label>
+    <input type="number" name="flightNo" required min="10" max="9999">
   </div>
   <div>
-    <label for="departs">Departure Date/Time:</label>
-    <input type="datetime-local" name="departs" id="departs" value="<%= departsDate %>" required>
+    <label for="departs">Departs:</label>
+    <input type="datetime-local" name="departs">
   </div>
   <button type="submit">Add Flight</button>
 </form>

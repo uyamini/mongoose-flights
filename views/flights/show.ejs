@@ -30,11 +30,18 @@
   <button type="submit">Add Destination</button>
 </form>
 
+<!-- Display existing tickets -->
 <h2>Tickets</h2>
 <% if (tickets.length) { %>
   <ul>
     <% tickets.forEach(ticket => { %>
-      <li>Seat: <%= ticket.seat %>, Price: <%= ticket.price %></li>
+      <li>
+        Seat: <%= ticket.seat %>, Price: <%= ticket.price %>
+        <!-- Delete button form for each ticket -->
+        <form action="/flights/<%= flight._id %>/tickets/<%= ticket._id %>?_method=DELETE" method="post">
+          <button type="submit">Delete Ticket</button>
+        </form>
+      </li>
     <% }) %>
   </ul>
 <% } else { %>
